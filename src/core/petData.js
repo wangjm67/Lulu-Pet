@@ -1,37 +1,47 @@
-export const petData={
+export const petData = {
 
 
-name:"噜噜",
+    // 基础信息
+
+    name:"噜噜",
+
+    age:1,
+
+    level:1,
+
+    exp:0,
 
 
-age:1,
+
+    // 养成属性
+
+    mood:100,
+
+    hunger:100,
+
+    energy:100,
 
 
-level:1,
+
+    // 互动数据
+
+    touchCount:0,
+
+    coin:20,
+
+    foodCount:0,
 
 
-exp:0,
+
+    // 当前状态
+
+    state:"idle",
 
 
-mood:100,
 
+    // 时间记录
 
-hunger:100,
-
-
-energy:100,
-
-
-coin:20,
-
-
-touchCount:0,
-
-
-foodCount:0,
-
-
-lastUpdate:Date.now()
+    lastUpdate:Date.now()
 
 
 }
