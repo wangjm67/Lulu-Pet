@@ -5,11 +5,11 @@
 
   "main": "electron/main.js",
 
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "package": "npm run build && electron-builder"
-  },
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "package": "npm run build && electron-builder --publish never"
+},
 
   "dependencies": {
     "vue": "^3.5.0"
