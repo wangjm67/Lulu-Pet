@@ -168,10 +168,15 @@ width:220px;
 
 height:220px;
 
+;
 
--webkit-app-region:drag;
+img{
 
+-webkit-app-region:no-drag;
 
+cursor:pointer;
+
+}
 animation:
 float 3s infinite;
 
@@ -186,6 +191,9 @@ img{
 width:100%;
 
 height:100%;
+
+
+object-fit:contain;
 
 
 }
