@@ -51,7 +51,67 @@ const message = ref("")
 
 
 const showInfo = ref(false)
+let dragging=false
 
+let lastX=0
+
+let lastY=0
+
+
+
+function startDrag(e){
+
+
+dragging=true
+
+
+lastX=e.screenX
+
+lastY=e.screenY
+
+
+}
+
+
+
+function moveDrag(e){
+
+
+if(!dragging)
+
+return
+
+
+
+let dx=e.screenX-lastX
+
+let dy=e.screenY-lastY
+
+
+
+lastX=e.screenX
+
+lastY=e.screenY
+
+
+
+window.electronAPI.moveWindow(
+dx,
+dy
+)
+
+
+}
+
+
+
+function endDrag(){
+
+
+dragging=false
+
+
+}
 
 let clickTimer = null
 
@@ -337,8 +397,19 @@ class="status"
 
 
 <div
+
 class="lulu"
+
 :class="cssState"
+
+@mousedown="startDrag"
+
+@mousemove="moveDrag"
+
+@mouseup="endDrag"
+
+@mouseleave="endDrag"
+
 >
 
 
@@ -396,7 +467,7 @@ width:220px;
 height:220px;
 
 
--webkit-app-region:drag;
+
 
 
 animation:float 3s infinite;
