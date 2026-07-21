@@ -1,3 +1,13 @@
+import {
+addExp
+}
+from "../core/grow"
+
+
+import {
+feed
+}
+from "../core/food"
 <script setup>
 
 import {
