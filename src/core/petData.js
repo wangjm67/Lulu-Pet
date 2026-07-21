@@ -12,7 +12,6 @@ export const petData = {
     exp:0,
 
 
-
     // 养成属性
 
     mood:100,
@@ -21,9 +20,6 @@ export const petData = {
 
     energy:100,
 
-exp:0,
-coin:0,
-touchCount:0
 
     // 互动数据
 
@@ -32,11 +28,9 @@ touchCount:0
     coin:0,
 
 
-
     // 当前状态
 
     state:"idle",
-
 
 
     // 时间记录
