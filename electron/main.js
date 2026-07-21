@@ -16,6 +16,7 @@ let tray
 
 
 
+
 function createWindow(){
 
 
@@ -38,6 +39,7 @@ display.workArea.width-350,
 
 y:
 display.workArea.height-400,
+
 
 
 transparent:true,
@@ -68,7 +70,9 @@ __dirname,
 }
 
 
+
 })
+
 
 
 
@@ -88,6 +92,7 @@ __dirname,
 
 
 
+
 function createTray(){
 
 
@@ -95,15 +100,14 @@ tray=new Tray(
 
 path.join(
 __dirname,
-"../src/assets/lulu.png"
+"lulu.png"
 )
 
 )
 
 
 
-const menu =
-Menu.buildFromTemplate([
+const menu = Menu.buildFromTemplate([
 
 
 {
@@ -116,7 +120,6 @@ click(){
 win.show()
 
 }
-
 
 },
 
@@ -133,7 +136,6 @@ win.hide()
 
 }
 
-
 },
 
 
@@ -149,7 +151,6 @@ app.quit()
 
 }
 
-
 }
 
 
@@ -162,6 +163,9 @@ tray.setContextMenu(menu)
 
 
 }
+
+
+
 
 
 
