@@ -1,3 +1,7 @@
+import {
+petData
+}
+from "../core/petData"
 <script setup>
 
 import {
@@ -10,7 +14,23 @@ import {
 PetState
 } from "../core/state"
 
+import {
+loadPet,
+savePet
+}
+from "../core/save"
 
+
+import {
+updatePet
+}
+from "../core/update"
+
+
+import {
+randomBehavior
+}
+from "../core/behavior"
 
 const state=ref(
 PetState.IDLE
@@ -34,7 +54,30 @@ function touch(){
 state.value=PetState.HAPPY
 
 
-mood.value+=5
+
+petData.mood+=5
+
+
+
+if(petData.mood>100)
+
+petData.mood=100
+
+
+
+savePet()
+
+
+
+setTimeout(()=>{
+
+
+state.value=PetState.IDLE
+
+
+},2000)
+
+}
 
 
 if(mood.value>100)
@@ -57,24 +100,7 @@ state.value=PetState.IDLE
 
 function autoAction(){
 
-
-let r=Math.random()
-
-
-
-if(r<0.7){
-
-state.value=PetState.IDLE
-
-}
-
-
-else{
-
-state.value=PetState.SLEEP
-
-}
-
+state.value=randomBehavior()
 
 }
 
@@ -83,7 +109,17 @@ state.value=PetState.SLEEP
 onMounted(()=>{
 
 
+loadPet()
+
+
+
 setInterval(()=>{
+
+
+updatePet()
+
+
+savePet()
 
 
 autoAction()
@@ -93,7 +129,6 @@ autoAction()
 
 
 })
-
 
 
 </script>
