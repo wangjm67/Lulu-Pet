@@ -382,7 +382,13 @@ width:260px;
 height:300px;
 
 
+/* 整个宠物区域可以拖动 */
+
+-webkit-app-region:drag;
+
+
 }
+
 
 
 
@@ -395,14 +401,10 @@ width:220px;
 height:220px;
 
 
--webkit-app-region:drag;
-
-
 animation:float 3s infinite;
 
 
 }
-
 
 
 
@@ -419,9 +421,6 @@ height:100%;
 object-fit:contain;
 
 
--webkit-app-region:no-drag;
-
-
 cursor:pointer;
 
 
@@ -431,12 +430,19 @@ user-select:none;
 -webkit-user-drag:none;
 
 
+/* 图片区域取消拖动，让点击生效 */
+
+-webkit-app-region:no-drag;
+
+
 }
 
 
 
 
 
+
+/* 气泡 */
 
 .bubble{
 
@@ -462,7 +468,13 @@ border-radius:15px;
 font-size:14px;
 
 
+z-index:10;
+
+
 -webkit-app-region:no-drag;
+
+
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 }
@@ -470,16 +482,22 @@ font-size:14px;
 
 
 
+
+/* 状态面板 */
+
 .status{
 
 
 position:absolute;
 
 
-top:60px;
+top:40px;
 
 
-left:20px;
+left:230px;
+
+
+width:150px;
 
 
 background:white;
@@ -497,7 +515,13 @@ line-height:22px;
 font-size:14px;
 
 
+z-index:20;
+
+
 -webkit-app-region:no-drag;
+
+
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 }
@@ -506,7 +530,29 @@ font-size:14px;
 
 
 
+/* 普通漂浮 */
+
+.lulu{
+
+
+animation:float 3s infinite;
+
+
+}
+
+
+
 @keyframes float{
+
+
+0%{
+
+
+transform:translateY(0);
+
+
+}
+
 
 
 50%{
@@ -518,11 +564,25 @@ transform:translateY(-8px);
 }
 
 
+
+100%{
+
+
+transform:translateY(0);
+
+
+}
+
+
+
 }
 
 
 
 
+
+
+/* 开心 */
 
 .lulu.happy{
 
@@ -534,27 +594,46 @@ animation:happy 0.5s infinite;
 
 
 
-
 @keyframes happy{
+
+
+0%{
+
+
+transform:rotate(0deg) scale(1);
+
+
+}
+
 
 
 50%{
 
 
-transform:
-
-rotate(8deg)
-
-scale(1.1);
-
-
-}
+transform:rotate(8deg) scale(1.1);
 
 
 }
 
 
 
+100%{
+
+
+transform:rotate(-8deg) scale(1);
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* 睡觉 */
 
 .lulu.sleep{
 
@@ -570,6 +649,9 @@ animation:none;
 
 
 
+
+/* 散步 */
+
 .lulu.walk{
 
 
@@ -577,7 +659,6 @@ animation:walk 1s infinite alternate;
 
 
 }
-
 
 
 
@@ -605,7 +686,6 @@ transform:translateX(20px);
 
 
 }
-
 
 
 </style>
