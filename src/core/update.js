@@ -12,49 +12,99 @@ const now=Date.now()
 
 
 
-const minutes=
+if(!petData.lastUpdate){
+
+petData.lastUpdate=now
+
+return
+
+}
+
+
+
+const minutes =
 
 (now-petData.lastUpdate)
 /60000
 
 
 
-if(minutes>0){
 
+// 饥饿下降
 
-petData.hunger -= minutes*0.5
-
-
-petData.energy -= minutes*0.3
+petData.hunger -= minutes * 2
 
 
 
-if(petData.hunger<0)
+// 精力下降
+
+petData.energy -= minutes * 1.5
+
+
+
+
+// 限制范围
+
+if(petData.hunger < 0){
 
 petData.hunger=0
 
+}
 
 
-if(petData.energy<0)
+
+if(petData.energy < 0){
 
 petData.energy=0
 
+}
 
 
-if(petData.hunger<30){
 
-petData.mood-=1
+
+
+// 饥饿影响心情
+
+if(petData.hunger < 30){
+
+
+petData.mood -= minutes * 2
+
 
 }
 
 
 
-if(petData.mood<0)
+
+// 精力太低也影响心情
+
+if(petData.energy < 20){
+
+
+petData.mood -= minutes * 1
+
+
+}
+
+
+
+
+
+if(petData.mood < 0){
 
 petData.mood=0
 
+}
+
+
+
+if(petData.mood>100){
+
+petData.mood=100
 
 }
+
+
 
 
 
