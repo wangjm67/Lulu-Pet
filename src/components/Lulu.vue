@@ -1,7 +1,3 @@
-import {
-petData
-}
-from "../core/petData"
 <script setup>
 
 import {
@@ -10,9 +6,14 @@ onMounted
 } from "vue"
 
 
+import luluImage from "../assets/lulu.png"
+
+
 import {
 PetState
-} from "../core/state"
+}
+from "../core/state"
+
 
 import {
 loadPet,
@@ -32,34 +33,46 @@ randomBehavior
 }
 from "../core/behavior"
 
-const state=ref(
-PetState.IDLE
-)
 
+import {
+petData
+}
+from "../core/petData"
 
-
-const mood=ref(100)
-
-
-
-import luluImage from "../assets/lulu.png"
 
 
 const image = ref(luluImage)
 
 
-
 const cssState = ref("")
+
 
 
 function touch(){
 
+
 cssState.value="happy"
+
+
+petData.mood += 5
+
+
+if(petData.mood>100){
+
+petData.mood=100
+
+}
+
+
+savePet()
+
 
 
 setTimeout(()=>{
 
+
 cssState.value=""
+
 
 },1000)
 
@@ -67,29 +80,29 @@ cssState.value=""
 }
 
 
-if(mood.value>100)
-
-mood.value=100
-
-
-
-setTimeout(()=>{
-
-
-state.value=PetState.IDLE
-
-
-},2000)
-
-}
-
 
 
 function autoAction(){
 
-state.value=randomBehavior()
+
+const action=randomBehavior()
+
+
+if(action===PetState.SLEEP){
+
+cssState.value="sleep"
 
 }
+
+else{
+
+cssState.value=""
+
+}
+
+
+}
+
 
 
 
@@ -118,6 +131,7 @@ autoAction()
 })
 
 
+
 </script>
 
 
@@ -140,9 +154,7 @@ class="lulu"
 </div>
 
 
-
 </template>
-
 
 
 
@@ -167,6 +179,7 @@ float 3s infinite;
 }
 
 
+
 img{
 
 
@@ -184,21 +197,21 @@ height:100%;
 
 0%{
 
-transform:translateY(0)
+transform:translateY(0);
 
 }
 
 
 50%{
 
-transform:translateY(-8px)
+transform:translateY(-8px);
 
 }
 
 
 100%{
 
-transform:translateY(0)
+transform:translateY(0);
 
 }
 
@@ -206,12 +219,14 @@ transform:translateY(0)
 }
 
 
-</style>
+
 .happy{
+
 
 animation:
 
 happyMove 0.5s infinite;
+
 
 }
 
@@ -222,33 +237,39 @@ happyMove 0.5s infinite;
 
 0%{
 
-transform:
-
-rotate(0deg)
-scale(1);
+transform:rotate(0deg) scale(1);
 
 }
-
 
 
 50%{
 
-transform:
-
-rotate(8deg)
-scale(1.1);
+transform:rotate(8deg) scale(1.1);
 
 }
-
 
 
 100%{
 
-transform:
-
-rotate(-8deg)
-scale(1);
+transform:rotate(-8deg) scale(1);
 
 }
 
+
 }
+
+
+
+.sleep{
+
+
+opacity:0.5;
+
+
+transform:scale(0.8);
+
+
+}
+
+
+</style>
