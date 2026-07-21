@@ -372,25 +372,20 @@ class="lulu"
 
 .box{
 
-
 position:relative;
-
 
 width:260px;
 
-
 height:300px;
-
-
-/* 整个宠物区域可以拖动 */
-
--webkit-app-region:drag;
 
 
 }
 
 
 
+/*
+  拖动区域
+*/
 
 .lulu{
 
@@ -401,10 +396,14 @@ width:220px;
 height:220px;
 
 
+-webkit-app-region:drag;
+
+
 animation:float 3s infinite;
 
 
 }
+
 
 
 
@@ -430,7 +429,11 @@ user-select:none;
 -webkit-user-drag:none;
 
 
-/* 图片区域取消拖动，让点击生效 */
+
+/*
+ 图片禁止拖动
+ 保证点击有效
+*/
 
 -webkit-app-region:no-drag;
 
@@ -440,9 +443,9 @@ user-select:none;
 
 
 
-
-
-/* 气泡 */
+/*
+ 气泡
+*/
 
 .bubble{
 
@@ -450,7 +453,7 @@ user-select:none;
 position:absolute;
 
 
-top:10px;
+top:5px;
 
 
 left:20px;
@@ -468,13 +471,11 @@ border-radius:15px;
 font-size:14px;
 
 
-z-index:10;
+z-index:20;
+
 
 
 -webkit-app-region:no-drag;
-
-
-box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 }
@@ -482,8 +483,9 @@ box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 
-
-/* 状态面板 */
+/*
+ 属性面板
+*/
 
 .status{
 
@@ -491,13 +493,13 @@ box-shadow:0 2px 8px rgba(0,0,0,0.15);
 position:absolute;
 
 
-top:40px;
+top:30px;
 
 
-left:230px;
+left:180px;
 
 
-width:150px;
+width:120px;
 
 
 background:white;
@@ -509,13 +511,14 @@ padding:10px;
 border-radius:10px;
 
 
+font-size:13px;
+
+
 line-height:22px;
 
 
-font-size:14px;
+z-index:30;
 
-
-z-index:20;
 
 
 -webkit-app-region:no-drag;
@@ -529,17 +532,9 @@ box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 
-
-/* 普通漂浮 */
-
-.lulu{
-
-
-animation:float 3s infinite;
-
-
-}
-
+/*
+ 普通漂浮
+*/
 
 
 @keyframes float{
@@ -547,50 +542,44 @@ animation:float 3s infinite;
 
 0%{
 
-
 transform:translateY(0);
 
-
 }
-
 
 
 50%{
 
-
 transform:translateY(-8px);
 
-
 }
-
 
 
 100%{
 
-
 transform:translateY(0);
 
+}
+
 
 }
 
 
 
-}
 
-
-
-
-
-
-/* 开心 */
+/*
+ 开心
+*/
 
 .lulu.happy{
 
 
-animation:happy 0.5s infinite;
+animation:
+
+happy 0.5s infinite;
 
 
 }
+
 
 
 
@@ -599,9 +588,7 @@ animation:happy 0.5s infinite;
 
 0%{
 
-
 transform:rotate(0deg) scale(1);
-
 
 }
 
@@ -609,9 +596,7 @@ transform:rotate(0deg) scale(1);
 
 50%{
 
-
 transform:rotate(8deg) scale(1.1);
-
 
 }
 
@@ -619,21 +604,19 @@ transform:rotate(8deg) scale(1.1);
 
 100%{
 
-
 transform:rotate(-8deg) scale(1);
 
+}
+
 
 }
 
 
 
-}
 
-
-
-
-
-/* 睡觉 */
+/*
+ 睡觉
+*/
 
 .lulu.sleep{
 
@@ -649,13 +632,16 @@ animation:none;
 
 
 
-
-/* 散步 */
+/*
+ 散步
+*/
 
 .lulu.walk{
 
 
-animation:walk 1s infinite alternate;
+animation:
+
+walk 1s infinite alternate;
 
 
 }
