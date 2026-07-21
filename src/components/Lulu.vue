@@ -42,40 +42,27 @@ const mood=ref(100)
 
 
 
-const image=ref(
-"/src/assets/lulu/idle.png"
-)
+import luluImage from "../assets/lulu.png"
 
+
+const image = ref(luluImage)
+
+
+
+const cssState = ref("")
 
 
 function touch(){
 
-
-state.value=PetState.HAPPY
-
-
-
-petData.mood+=5
-
-
-
-if(petData.mood>100)
-
-petData.mood=100
-
-
-
-savePet()
-
+cssState.value="happy"
 
 
 setTimeout(()=>{
 
+cssState.value=""
 
-state.value=PetState.IDLE
+},1000)
 
-
-},2000)
 
 }
 
@@ -146,6 +133,7 @@ class="lulu"
 
 <img
 :src="image"
+:class="cssState"
 />
 
 
@@ -219,3 +207,48 @@ transform:translateY(0)
 
 
 </style>
+.happy{
+
+animation:
+
+happyMove 0.5s infinite;
+
+}
+
+
+
+@keyframes happyMove{
+
+
+0%{
+
+transform:
+
+rotate(0deg)
+scale(1);
+
+}
+
+
+
+50%{
+
+transform:
+
+rotate(8deg)
+scale(1.1);
+
+}
+
+
+
+100%{
+
+transform:
+
+rotate(-8deg)
+scale(1);
+
+}
+
+}
