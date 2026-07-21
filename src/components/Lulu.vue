@@ -57,7 +57,13 @@ function touch(){
 cssState.value="happy"
 
 
-petData.mood+=5
+petData.mood += 5
+
+petData.touchCount += 1
+
+petData.exp += 1
+
+petData.coin += 1
 
 
 if(petData.mood>100)
