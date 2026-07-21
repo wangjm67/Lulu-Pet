@@ -27,9 +27,9 @@ export const petData = {
 
     touchCount:0,
 
-    coin:20,
-
     foodCount:0,
+
+    coin:20,
 
 
 
