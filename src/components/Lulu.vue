@@ -53,24 +53,44 @@ const message = ref("")
 const showInfo = ref(false)
 
 
+let clickTimer = null
 
+
+
+// 点击噜噜
 
 function touch(){
+
+
+if(clickTimer){
+
+clearTimeout(clickTimer)
+
+clickTimer=null
+
+return
+
+}
+
+
+
+clickTimer=setTimeout(()=>{
 
 
 cssState.value="happy"
 
 
-petData.mood += 5
+
+petData.mood +=5
 
 
-petData.touchCount += 1
+petData.touchCount +=1
 
 
-petData.exp += 1
+petData.exp +=1
 
 
-petData.coin += 1
+petData.coin +=1
 
 
 
@@ -106,10 +126,22 @@ message.value=""
 },2000)
 
 
+
+clickTimer=null
+
+
+
+},250)
+
+
+
 }
 
 
 
+
+
+// 双击查看状态
 
 function showStatus(){
 
@@ -122,7 +154,20 @@ showInfo.value=!showInfo.value
 
 
 
+// 自动行为
+
 function autoAction(){
+
+
+
+// 防止打断点击开心
+
+if(cssState.value==="happy"){
+
+return
+
+}
+
 
 
 const action=randomBehavior()
@@ -141,6 +186,7 @@ message.value="噜噜睡觉啦 Zzz"
 }
 
 
+
 else if(action===PetState.WALK){
 
 
@@ -151,6 +197,7 @@ message.value="噜噜散步中"
 
 
 }
+
 
 
 else if(action===PetState.HAPPY){
@@ -165,6 +212,7 @@ message.value="噜噜很开心"
 }
 
 
+
 else{
 
 
@@ -177,8 +225,8 @@ message.value=""
 }
 
 
-}
 
+}
 
 
 
@@ -202,13 +250,16 @@ savePet()
 autoAction()
 
 
+
 },15000)
+
 
 
 })
 
 
 </script>
+
 
 
 
@@ -230,35 +281,57 @@ class="bubble"
 
 
 
-
 <div
 v-if="showInfo"
 class="status"
 >
 
+
 🐶 {{petData.name}}
 
 <br>
 
-❤️ 心情：{{Math.floor(petData.mood)}}
+
+❤️ 心情：
+
+{{Math.floor(petData.mood)}}
+
 
 <br>
 
-🍖 饥饿：{{Math.floor(petData.hunger)}}
+
+🍖 饥饿：
+
+{{Math.floor(petData.hunger)}}
+
 
 <br>
 
-⚡ 精力：{{Math.floor(petData.energy)}}
+
+⚡ 精力：
+
+{{Math.floor(petData.energy)}}
+
 
 <br>
 
-⭐ 等级：{{petData.level}}
+
+⭐ 等级：
+
+{{petData.level}}
+
 
 <br>
 
-🪙 金币：{{petData.coin}}
+
+🪙 金币：
+
+{{petData.coin}}
+
+
 
 </div>
+
 
 
 
@@ -283,10 +356,14 @@ class="lulu"
 </div>
 
 
+
 </div>
 
 
+
 </template>
+
+
 
 
 
@@ -296,7 +373,11 @@ class="lulu"
 .box{
 
 
+position:relative;
+
+
 width:260px;
+
 
 height:300px;
 
@@ -309,6 +390,7 @@ height:300px;
 
 
 width:220px;
+
 
 height:220px;
 
@@ -323,10 +405,13 @@ animation:float 3s infinite;
 
 
 
+
+
 img{
 
 
 width:100%;
+
 
 height:100%;
 
@@ -347,6 +432,8 @@ user-select:none;
 
 
 }
+
+
 
 
 
@@ -404,10 +491,10 @@ padding:10px;
 border-radius:10px;
 
 
-font-size:14px;
-
-
 line-height:22px;
+
+
+font-size:14px;
 
 
 -webkit-app-region:no-drag;
@@ -424,12 +511,15 @@ line-height:22px;
 
 50%{
 
+
 transform:translateY(-8px);
 
+
 }
 
 
 }
+
 
 
 
@@ -437,12 +527,11 @@ transform:translateY(-8px);
 .lulu.happy{
 
 
-animation:
-
-happy 0.5s infinite;
+animation:happy 0.5s infinite;
 
 
 }
+
 
 
 
@@ -451,10 +540,13 @@ happy 0.5s infinite;
 
 50%{
 
+
 transform:
 
 rotate(8deg)
+
 scale(1.1);
+
 
 }
 
@@ -478,16 +570,14 @@ animation:none;
 
 
 
-
 .lulu.walk{
 
 
-animation:
-
-walk 1s infinite alternate;
+animation:walk 1s infinite alternate;
 
 
 }
+
 
 
 
@@ -496,19 +586,26 @@ walk 1s infinite alternate;
 
 from{
 
+
 transform:translateX(-20px);
 
+
 }
+
 
 
 to{
 
+
 transform:translateX(20px);
 
+
 }
 
 
+
 }
+
 
 
 </style>
