@@ -42,6 +42,7 @@ display.workArea.height-400,
 
 transparent:true,
 
+
 frame:false,
 
 
@@ -52,6 +53,7 @@ skipTaskbar:true,
 
 
 resizable:false,
+
 
 
 webPreferences:{
@@ -90,14 +92,18 @@ function createTray(){
 
 
 tray=new Tray(
+
 path.join(
 __dirname,
 "../src/assets/lulu.png"
 )
+
 )
 
 
-const menu = Menu.buildFromTemplate([
+
+const menu =
+Menu.buildFromTemplate([
 
 
 {
@@ -105,12 +111,9 @@ const menu = Menu.buildFromTemplate([
 
 label:"显示噜噜",
 
-
 click(){
 
-
 win.show()
-
 
 }
 
@@ -124,12 +127,9 @@ win.show()
 
 label:"隐藏噜噜",
 
-
 click(){
 
-
 win.hide()
-
 
 }
 
@@ -143,18 +143,14 @@ win.hide()
 
 label:"退出噜噜",
 
-
 click(){
-
 
 app.quit()
 
-
 }
 
 
 }
-
 
 
 ])
@@ -166,6 +162,7 @@ tray.setContextMenu(menu)
 
 
 }
+
 
 
 
