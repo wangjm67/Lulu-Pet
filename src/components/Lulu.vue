@@ -1,13 +1,3 @@
-import {
-addExp
-}
-from "../core/grow"
-
-
-import {
-feed
-}
-from "../core/food"
 <script setup>
 
 import {
@@ -16,13 +6,16 @@ onMounted
 } from "vue"
 
 
+
 import luluImage from "../assets/lulu.png"
+
 
 
 import {
 PetState
 }
 from "../core/state"
+
 
 
 import {
@@ -32,16 +25,19 @@ savePet
 from "../core/save"
 
 
+
 import {
 updatePet
 }
 from "../core/update"
 
 
+
 import {
 randomBehavior
 }
 from "../core/behavior"
+
 
 
 import {
@@ -51,92 +47,65 @@ from "../core/petData"
 
 
 
-const image = ref(luluImage)
-
-
-const cssState = ref("")
-
-
-const message = ref("")
-
-
-const showInfo = ref(false)
-let dragging=false
-
-let lastX=0
-
-let lastY=0
-
-
-
-function startDrag(e){
-
-
-dragging=true
-
-
-lastX=e.screenX
-
-lastY=e.screenY
-
-
+import {
+addExp
 }
+from "../core/grow"
 
 
 
-function moveDrag(e){
-
-
-if(!dragging)
-
-return
-
-
-
-let dx=e.screenX-lastX
-
-let dy=e.screenY-lastY
-
-
-
-lastX=e.screenX
-
-lastY=e.screenY
-
-
-
-window.electronAPI.moveWindow(
-dx,
-dy
-)
-
-
+import {
+feed
 }
+from "../core/food"
 
 
 
-function endDrag(){
 
 
-dragging=false
-
-
-}
-
-let clickTimer = null
+const image=ref(luluImage)
 
 
 
-// 点击噜噜
+const cssState=ref("")
+
+
+
+const message=ref("")
+
+
+
+const showInfo=ref(false)
+
+
+
+const eyeX=ref(0)
+
+
+
+const eyeY=ref(0)
+
+
+
+let clickTimer=null
+
+
+
+
+
+// 点击互动
 
 function touch(){
 
 
+
 if(clickTimer){
+
 
 clearTimeout(clickTimer)
 
 clickTimer=null
+
 
 return
 
@@ -147,32 +116,50 @@ return
 clickTimer=setTimeout(()=>{
 
 
+
 cssState.value="happy"
 
 
 
-petData.mood +=5
+petData.mood+=5
 
 
-petData.touchCount +=1
-
-
-petData.exp +=1
-
-
-petData.coin +=1
+petData.touchCount++
 
 
 
-if(petData.mood>100){
+const levelUp=
+addExp(1)
+
+
+
+petData.coin++
+
+
+
+if(petData.mood>100)
 
 petData.mood=100
+
+
+
+
+
+if(levelUp){
+
+
+message.value="噜噜升级啦！"
+
+
+}else{
+
+
+message.value="嘿嘿，被摸到了~"
+
 
 }
 
 
-
-message.value="嘿嘿，被摸到了~"
 
 
 
@@ -183,17 +170,14 @@ savePet()
 setTimeout(()=>{
 
 
-if(cssState.value==="happy"){
-
 cssState.value=""
-
-}
 
 
 message.value=""
 
 
 },2000)
+
 
 
 
@@ -211,7 +195,7 @@ clickTimer=null
 
 
 
-// 双击查看状态
+// 查看状态
 
 function showStatus(){
 
@@ -224,19 +208,92 @@ showInfo.value=!showInfo.value
 
 
 
+
+
+// 喂食
+
+function giveFood(){
+
+
+
+const result=feed()
+
+
+
+if(result){
+
+
+message.value="谢谢投喂~"
+
+
+}else{
+
+
+message.value="金币不够啦"
+
+
+}
+
+
+
+savePet()
+
+
+
+}
+
+
+
+
+
+// 鼠标跟随
+
+function mouseMove(e){
+
+
+
+const rect=e.currentTarget.getBoundingClientRect()
+
+
+
+const x=
+e.clientX-rect.left
+
+
+
+const y=
+e.clientY-rect.top
+
+
+
+
+eyeX.value=
+(x-110)/15
+
+
+
+eyeY.value=
+(y-110)/15
+
+
+
+}
+
+
+
+
+
 // 自动行为
 
 function autoAction(){
 
 
 
-// 防止打断点击开心
-
-if(cssState.value==="happy"){
+if(cssState.value==="happy")
 
 return
 
-}
+
 
 
 
@@ -248,7 +305,6 @@ if(action===PetState.SLEEP){
 
 
 cssState.value="sleep"
-
 
 message.value="噜噜睡觉啦 Zzz"
 
@@ -262,21 +318,7 @@ else if(action===PetState.WALK){
 
 cssState.value="walk"
 
-
 message.value="噜噜散步中"
-
-
-}
-
-
-
-else if(action===PetState.HAPPY){
-
-
-cssState.value="happy"
-
-
-message.value="噜噜很开心"
 
 
 }
@@ -297,6 +339,9 @@ message.value=""
 
 
 }
+
+
+
 
 
 
@@ -328,7 +373,9 @@ autoAction()
 })
 
 
+
 </script>
+
 
 
 
@@ -336,7 +383,10 @@ autoAction()
 <template>
 
 
-<div class="box">
+<div
+class="box"
+@mousemove="mouseMove"
+>
 
 
 
@@ -348,6 +398,8 @@ class="bubble"
 {{message}}
 
 </div>
+
+
 
 
 
@@ -394,10 +446,31 @@ class="status"
 <br>
 
 
-🪙 金币：
+✨经验：
+
+{{petData.exp}}
+
+
+<br>
+
+
+🪙金币：
 
 {{petData.coin}}
 
+
+
+<br><br>
+
+
+
+<button
+@click="giveFood"
+>
+
+🍖 喂噜噜
+
+</button>
 
 
 </div>
@@ -406,21 +479,14 @@ class="status"
 
 
 
+
+
 <div
-
 class="lulu"
-
 :class="cssState"
-
-@mousedown="startDrag"
-
-@mousemove="moveDrag"
-
-@mouseup="endDrag"
-
-@mouseleave="endDrag"
-
 >
+
+
 
 
 <img
@@ -431,18 +497,28 @@ class="lulu"
 
 @dblclick="showStatus"
 
-/>
+:style="{
+
+transform:
+
+`translate(${eyeX}px,${eyeY}px)`
+
+}"
+
+>
 
 
 </div>
 
 
 
-</div>
 
+</div>
 
 
 </template>
+
+
 
 
 
@@ -453,9 +529,12 @@ class="lulu"
 
 .box{
 
+
 position:relative;
 
+
 width:260px;
+
 
 height:300px;
 
@@ -464,9 +543,6 @@ height:300px;
 
 
 
-/*
-  拖动区域
-*/
 
 .lulu{
 
@@ -475,9 +551,6 @@ width:220px;
 
 
 height:220px;
-
-
-
 
 
 animation:float 3s infinite;
@@ -510,23 +583,12 @@ user-select:none;
 -webkit-user-drag:none;
 
 
-
-/*
- 图片禁止拖动
- 保证点击有效
-*/
-
--webkit-app-region:no-drag;
-
-
 }
 
 
 
 
-/*
- 气泡
-*/
+
 
 .bubble{
 
@@ -534,7 +596,7 @@ user-select:none;
 position:absolute;
 
 
-top:5px;
+top:10px;
 
 
 left:20px;
@@ -549,14 +611,7 @@ padding:8px 12px;
 border-radius:15px;
 
 
-font-size:14px;
-
-
-z-index:20;
-
-
-
--webkit-app-region:no-drag;
+z-index:10;
 
 
 }
@@ -564,23 +619,16 @@ z-index:20;
 
 
 
-/*
- 属性面板
-*/
-
 .status{
 
 
 position:absolute;
 
 
-top:30px;
+top:20px;
 
 
-left:180px;
-
-
-width:120px;
+left:10px;
 
 
 background:white;
@@ -592,20 +640,20 @@ padding:10px;
 border-radius:10px;
 
 
-font-size:13px;
+z-index:20;
 
 
 line-height:22px;
 
 
-z-index:30;
+}
 
 
 
--webkit-app-region:no-drag;
+button{
 
 
-box-shadow:0 2px 8px rgba(0,0,0,0.15);
+cursor:pointer;
 
 
 }
@@ -613,33 +661,19 @@ box-shadow:0 2px 8px rgba(0,0,0,0.15);
 
 
 
-/*
- 普通漂浮
-*/
 
 
 @keyframes float{
 
 
-0%{
-
-transform:translateY(0);
-
-}
-
-
 50%{
+
 
 transform:translateY(-8px);
 
-}
-
-
-100%{
-
-transform:translateY(0);
 
 }
+
 
 
 }
@@ -647,16 +681,13 @@ transform:translateY(0);
 
 
 
-/*
- 开心
-*/
 
 .lulu.happy{
 
 
 animation:
 
-happy 0.5s infinite;
+happy .5s infinite;
 
 
 }
@@ -667,27 +698,14 @@ happy 0.5s infinite;
 @keyframes happy{
 
 
-0%{
-
-transform:rotate(0deg) scale(1);
-
-}
-
-
-
 50%{
+
 
 transform:rotate(8deg) scale(1.1);
 
-}
-
-
-
-100%{
-
-transform:rotate(-8deg) scale(1);
 
 }
+
 
 
 }
@@ -695,14 +713,11 @@ transform:rotate(-8deg) scale(1);
 
 
 
-/*
- 睡觉
-*/
 
 .lulu.sleep{
 
 
-opacity:0.5;
+opacity:.5;
 
 
 animation:none;
@@ -713,9 +728,6 @@ animation:none;
 
 
 
-/*
- 散步
-*/
 
 .lulu.walk{
 
@@ -726,6 +738,8 @@ walk 1s infinite alternate;
 
 
 }
+
+
 
 
 
@@ -741,7 +755,6 @@ transform:translateX(-20px);
 }
 
 
-
 to{
 
 
@@ -753,6 +766,7 @@ transform:translateX(20px);
 
 
 }
+
 
 
 </style>
