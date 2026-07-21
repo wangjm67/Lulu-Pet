@@ -3,7 +3,8 @@ app,
 BrowserWindow,
 screen,
 Tray,
-Menu
+Menu,
+ipcMain
 }=require("electron")
 
 
@@ -16,9 +17,7 @@ let tray
 
 
 
-
 function createWindow(){
-
 
 
 const display =
@@ -32,7 +31,6 @@ win=new BrowserWindow({
 width:260,
 
 height:300,
-
 
 
 x:
@@ -59,27 +57,25 @@ skipTaskbar:true,
 resizable:false,
 
 
-// 允许移动窗口
-
-movable:true,
-
-
-
 webPreferences:{
 
 
 preload:path.join(
 __dirname,
 "preload.js"
-)
+),
+
+
+nodeIntegration:false,
+
+
+contextIsolation:true
 
 
 }
 
 
 })
-
-
 
 
 
@@ -93,16 +89,46 @@ __dirname,
 )
 
 
-
 }
 
 
 
 
+// 接收拖动坐标
+
+ipcMain.on(
+"move-window",
+(event,data)=>{
+
+
+if(win){
+
+
+const [x,y]=win.getPosition()
+
+
+
+win.setPosition(
+
+x+data.dx,
+
+y+data.dy
+
+)
+
+
+}
+
+
+
+}
+
+)
+
+
 
 
 function createTray(){
-
 
 
 tray=new Tray(
@@ -116,14 +142,13 @@ __dirname,
 
 
 
-
-const menu=
+tray.setContextMenu(
 
 Menu.buildFromTemplate([
 
 
-
 {
+
 
 label:"显示噜噜",
 
@@ -133,12 +158,12 @@ win.show()
 
 }
 
+
 },
 
 
-
-
 {
+
 
 label:"隐藏噜噜",
 
@@ -148,12 +173,12 @@ win.hide()
 
 }
 
+
 },
 
 
-
-
 {
+
 
 label:"退出噜噜",
 
@@ -163,17 +188,14 @@ app.quit()
 
 }
 
-}
 
+}
 
 
 ])
 
 
-
-
-tray.setContextMenu(menu)
-
+)
 
 
 }
@@ -181,19 +203,13 @@ tray.setContextMenu(menu)
 
 
 
-
-
-
 app.whenReady()
-
 .then(()=>{
 
 
 createWindow()
 
-
 createTray()
-
 
 
 })
