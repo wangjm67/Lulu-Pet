@@ -21,7 +21,9 @@ export const petData = {
 
     energy:100,
 
-
+exp:0,
+coin:0,
+touchCount:0
 
     // 互动数据
 
