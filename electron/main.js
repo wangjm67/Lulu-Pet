@@ -92,10 +92,9 @@ function createTray(){
 tray=new Tray(
 path.join(
 __dirname,
-"icon.ico"
+"../src/assets/lulu.png"
 )
 )
-
 
 
 const menu = Menu.buildFromTemplate([
