@@ -1,13 +1,37 @@
 const {
-contextBridge
+contextBridge,
+ipcRenderer
 }=require("electron")
+
 
 
 contextBridge.exposeInMainWorld(
 
-"Lulu",{
+"electronAPI",
 
-version:"1.0"
+{
+
+
+moveWindow:(dx,dy)=>{
+
+
+ipcRenderer.send(
+
+"move-window",
+
+{
+
+dx,
+
+dy
+
+}
+
+)
+
+
+}
+
 
 }
 
