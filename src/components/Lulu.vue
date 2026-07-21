@@ -41,10 +41,13 @@ from "../core/petData"
 
 
 
-const image = ref(luluImage)
+const image=ref(luluImage)
 
 
-const cssState = ref("")
+const cssState=ref("")
+
+
+const message=ref("")
 
 
 
@@ -54,16 +57,16 @@ function touch(){
 cssState.value="happy"
 
 
-
-petData.mood += 5
-
+petData.mood+=5
 
 
-if(petData.mood > 100){
+if(petData.mood>100)
 
-petData.mood = 100
+petData.mood=100
 
-}
+
+
+message.value="嘿嘿，被摸到了"
 
 
 
@@ -77,7 +80,10 @@ setTimeout(()=>{
 cssState.value=""
 
 
-},1000)
+message.value=""
+
+
+},2000)
 
 
 }
@@ -88,22 +94,40 @@ cssState.value=""
 function autoAction(){
 
 
-const action = randomBehavior()
+const action=randomBehavior()
 
 
 
-if(action === PetState.SLEEP){
+if(action===PetState.SLEEP){
 
 
 cssState.value="sleep"
 
+message.value="噜噜睡觉啦~"
+
 
 }
+
+
+else if(action===PetState.WALK){
+
+
+cssState.value="walk"
+
+
+message.value="噜噜散步中"
+
+
+}
+
 
 else{
 
 
 cssState.value=""
+
+
+message.value=""
 
 
 }
@@ -126,15 +150,12 @@ setInterval(()=>{
 
 updatePet()
 
-
 savePet()
-
 
 autoAction()
 
 
 },15000)
-
 
 
 })
@@ -143,20 +164,35 @@ autoAction()
 </script>
 
 
-
 <template>
+
+
+<div class="box">
+
+
+<div
+v-if="message"
+class="bubble"
+>
+
+{{message}}
+
+</div>
 
 
 <div
 class="lulu"
 :class="cssState"
-@click="touch"
 >
 
 
 <img
+@click="touch"
 :src="image"
 />
+
+
+</div>
 
 
 </div>
@@ -165,8 +201,22 @@ class="lulu"
 </template>
 
 
-
 <style>
+
+
+.box{
+
+
+width:260px;
+
+height:300px;
+
+
+-webkit-app-region:drag;
+
+
+}
+
 
 
 .lulu{
@@ -175,17 +225,6 @@ class="lulu"
 width:220px;
 
 height:220px;
-
-
--webkit-app-region:no-drag;
-
-
-animation:
-
-float 3s infinite;
-
-
-cursor:pointer;
 
 
 }
@@ -203,27 +242,57 @@ height:100%;
 object-fit:contain;
 
 
-user-select:none;
+-webkit-app-region:no-drag;
 
 
--webkit-user-drag:none;
+cursor:pointer;
 
 
 }
 
 
 
-/* 普通待机动画 */
+.bubble{
+
+
+position:absolute;
+
+
+background:white;
+
+
+padding:8px 12px;
+
+
+border-radius:15px;
+
+
+top:10px;
+
+
+left:20px;
+
+
+font-size:14px;
+
+
+-webkit-app-region:no-drag;
+
+
+}
+
+
+
+.lulu{
+
+
+animation:float 3s infinite;
+
+}
+
+
 
 @keyframes float{
-
-
-0%{
-
-transform:translateY(0);
-
-}
-
 
 
 50%{
@@ -233,89 +302,78 @@ transform:translateY(-8px);
 }
 
 
-
-100%{
-
-transform:translateY(0);
-
 }
 
 
-}
-
-
-
-
-/* 点击开心 */
 
 .lulu.happy{
 
 
 animation:
 
-happyMove 0.5s infinite;
+happy 0.5s infinite;
 
 
 }
 
 
 
-@keyframes happyMove{
-
-
-0%{
-
-transform:
-
-rotate(0deg)
-scale(1);
-
-}
-
+@keyframes happy{
 
 
 50%{
 
 transform:
-
 rotate(8deg)
 scale(1.1);
 
-
-}
-
-
-
-100%{
-
-transform:
-
-rotate(-8deg)
-scale(1);
-
-
 }
 
 
 }
 
 
-
-
-/* 睡觉 */
 
 .lulu.sleep{
 
 
-opacity:0.5;
-
-
-transform:
-
-scale(0.8);
+opacity:.5;
 
 
 animation:none;
+
+
+}
+
+
+
+.lulu.walk{
+
+
+animation:
+
+walk 1s infinite alternate;
+
+
+}
+
+
+
+@keyframes walk{
+
+
+from{
+
+transform:translateX(-20px);
+
+}
+
+
+to{
+
+transform:translateX(20px);
+
+}
 
 
 }
