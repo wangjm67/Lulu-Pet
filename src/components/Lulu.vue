@@ -54,14 +54,17 @@ function touch(){
 cssState.value="happy"
 
 
+
 petData.mood += 5
 
 
-if(petData.mood>100){
 
-petData.mood=100
+if(petData.mood > 100){
+
+petData.mood = 100
 
 }
+
 
 
 savePet()
@@ -85,18 +88,23 @@ cssState.value=""
 function autoAction(){
 
 
-const action=randomBehavior()
+const action = randomBehavior()
 
 
-if(action===PetState.SLEEP){
+
+if(action === PetState.SLEEP){
+
 
 cssState.value="sleep"
+
 
 }
 
 else{
 
+
 cssState.value=""
+
 
 }
 
@@ -128,8 +136,8 @@ autoAction()
 },15000)
 
 
-})
 
+})
 
 
 </script>
@@ -141,13 +149,13 @@ autoAction()
 
 <div
 class="lulu"
+:class="cssState"
 @click="touch"
 >
 
 
 <img
 :src="image"
-:class="cssState"
 />
 
 
@@ -168,17 +176,16 @@ width:220px;
 
 height:220px;
 
-;
-
-img{
 
 -webkit-app-region:no-drag;
 
-cursor:pointer;
 
-}
 animation:
+
 float 3s infinite;
+
+
+cursor:pointer;
 
 
 }
@@ -196,9 +203,17 @@ height:100%;
 object-fit:contain;
 
 
+user-select:none;
+
+
+-webkit-user-drag:none;
+
+
 }
 
 
+
+/* 普通待机动画 */
 
 @keyframes float{
 
@@ -210,11 +225,13 @@ transform:translateY(0);
 }
 
 
+
 50%{
 
 transform:translateY(-8px);
 
 }
+
 
 
 100%{
@@ -228,7 +245,10 @@ transform:translateY(0);
 
 
 
-.happy{
+
+/* 点击开心 */
+
+.lulu.happy{
 
 
 animation:
@@ -245,21 +265,34 @@ happyMove 0.5s infinite;
 
 0%{
 
-transform:rotate(0deg) scale(1);
+transform:
+
+rotate(0deg)
+scale(1);
 
 }
+
 
 
 50%{
 
-transform:rotate(8deg) scale(1.1);
+transform:
+
+rotate(8deg)
+scale(1.1);
+
 
 }
+
 
 
 100%{
 
-transform:rotate(-8deg) scale(1);
+transform:
+
+rotate(-8deg)
+scale(1);
+
 
 }
 
@@ -268,16 +301,25 @@ transform:rotate(-8deg) scale(1);
 
 
 
-.sleep{
+
+/* 睡觉 */
+
+.lulu.sleep{
 
 
 opacity:0.5;
 
 
-transform:scale(0.8);
+transform:
+
+scale(0.8);
+
+
+animation:none;
 
 
 }
+
 
 
 </style>
