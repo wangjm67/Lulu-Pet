@@ -17,7 +17,10 @@ let tray
 
 
 
+
+
 function createWindow(){
+
 
 
 const display =
@@ -28,9 +31,11 @@ screen.getPrimaryDisplay()
 win=new BrowserWindow({
 
 
+
 width:260,
 
 height:300,
+
 
 
 x:
@@ -57,6 +62,7 @@ skipTaskbar:true,
 resizable:false,
 
 
+
 webPreferences:{
 
 
@@ -75,7 +81,10 @@ contextIsolation:true
 }
 
 
+
 })
+
+
 
 
 
@@ -89,19 +98,44 @@ __dirname,
 )
 
 
+
+
+
+win.on(
+"closed",
+()=>{
+
+
+win=null
+
+
+}
+
+)
+
+
+
 }
 
 
 
 
-// 接收拖动坐标
+
+
+
+// =====================
+// 窗口拖动
+// =====================
 
 ipcMain.on(
 "move-window",
 (event,data)=>{
 
 
-if(win){
+if(!win)
+
+return
+
 
 
 const [x,y]=win.getPosition()
@@ -119,16 +153,22 @@ y+data.dy
 
 }
 
-
-
-}
-
 )
 
 
 
 
+
+
+
+
+// =====================
+// 托盘
+// =====================
+
+
 function createTray(){
+
 
 
 tray=new Tray(
@@ -142,9 +182,11 @@ __dirname,
 
 
 
+
 tray.setContextMenu(
 
 Menu.buildFromTemplate([
+
 
 
 {
@@ -152,14 +194,21 @@ Menu.buildFromTemplate([
 
 label:"显示噜噜",
 
+
 click(){
 
+
+if(win)
+
 win.show()
+
 
 }
 
 
 },
+
+
 
 
 {
@@ -167,9 +216,14 @@ win.show()
 
 label:"隐藏噜噜",
 
+
 click(){
 
+
+if(win)
+
 win.hide()
+
 
 }
 
@@ -177,39 +231,51 @@ win.hide()
 },
 
 
+
+
 {
 
 
 label:"退出噜噜",
 
+
 click(){
+
 
 app.quit()
 
+
 }
 
 
 }
+
 
 
 ])
 
-
 )
 
 
+
 }
+
+
+
 
 
 
 
 app.whenReady()
+
 .then(()=>{
 
 
 createWindow()
 
+
 createTray()
+
 
 
 })
