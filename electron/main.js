@@ -20,6 +20,7 @@ let tray
 function createWindow(){
 
 
+
 const display =
 screen.getPrimaryDisplay()
 
@@ -31,6 +32,7 @@ win=new BrowserWindow({
 width:260,
 
 height:300,
+
 
 
 x:
@@ -57,6 +59,11 @@ skipTaskbar:true,
 resizable:false,
 
 
+// 允许移动窗口
+
+movable:true,
+
+
 
 webPreferences:{
 
@@ -70,8 +77,8 @@ __dirname,
 }
 
 
-
 })
+
 
 
 
@@ -93,7 +100,9 @@ __dirname,
 
 
 
+
 function createTray(){
+
 
 
 tray=new Tray(
@@ -107,11 +116,14 @@ __dirname,
 
 
 
-const menu = Menu.buildFromTemplate([
+
+const menu=
+
+Menu.buildFromTemplate([
+
 
 
 {
-
 
 label:"显示噜噜",
 
@@ -125,8 +137,8 @@ win.show()
 
 
 
-{
 
+{
 
 label:"隐藏噜噜",
 
@@ -140,8 +152,8 @@ win.hide()
 
 
 
-{
 
+{
 
 label:"退出噜噜",
 
@@ -154,7 +166,9 @@ app.quit()
 }
 
 
+
 ])
+
 
 
 
@@ -171,6 +185,7 @@ tray.setContextMenu(menu)
 
 
 app.whenReady()
+
 .then(()=>{
 
 
@@ -178,6 +193,7 @@ createWindow()
 
 
 createTray()
+
 
 
 })
